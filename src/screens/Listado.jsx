@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Card, Icon } from "@rneui/themed";
+import PagerView from 'react-native-pager-view';
+import { map } from 'lodash';
 
 const songs = [
   { id: "1", title: "STARBOY", artist: "The Weeknd", cover: require("../../assets/starboy.jpeg") },
@@ -13,7 +15,13 @@ const songs = [
 export default function Listado({ navigation }) {
   return (
     <View style={styles.container}>
-      <Image source={require("../../assets/blindinglights.jpeg")} style={styles.playlistCover} />
+      <PagerView style={styles.playlistCover} initialPage={0}>
+        {songs.map((song, index) => (
+          <View style={styles.playlistCover} key={index}>
+            <Image source={song.cover} style={{ width: '100%', height: '100%' }} resizeMode='cover' />
+          </View>
+        ))}
+      </PagerView>
       <Text style={styles.title}>WEEKEND PLAYLIST</Text>
       <View style={styles.info}>
         <View style={styles.info}>
@@ -24,7 +32,7 @@ export default function Listado({ navigation }) {
           <Icon name="clock-o" type="font-awesome" color="gray" />
           <Text style={styles.content}>2h 25mins</Text>
         </View>
-        <Icon name="play-circle" type="font-awesome" color="green"  size={80}/>
+        <Icon name="play-circle" type="font-awesome" color="green" size={80} />
       </View>
       <FlatList
         data={songs}
@@ -46,10 +54,9 @@ export default function Listado({ navigation }) {
         )}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
-    </View >
+    </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#000", padding: 10 },
@@ -57,7 +64,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 32, fontWeight: "bold", color: "white", marginLeft: 10, marginBottom: -20 },
   info: { flexDirection: 'row', alignItems: 'center', marginHorizontal: 18 },
   content: { color: 'white', opacity: 0.5, marginHorizontal: 10 },
-  card: { backgroundColor: "#000", borderRadius: 10, padding: 10, borderWidth: 0, shadowColor: "transparent"},
+  card: { backgroundColor: "#000", borderRadius: 10, padding: 10, borderWidth: 0, shadowColor: "transparent" },
   songItem: { flexDirection: "row", alignItems: "center" },
   songCover: { width: 60, height: 60, borderRadius: 10 },
   songInfo: { flex: 1, marginLeft: 10 },
